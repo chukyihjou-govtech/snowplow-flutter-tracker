@@ -1,6 +1,7 @@
 package com.patricktailor.snowplow_flutter_tracker.util
 
 import android.content.Context
+import android.webkit.WebSettings;
 import com.snowplowanalytics.snowplow.tracker.*
 import com.snowplowanalytics.snowplow.tracker.emitter.BufferOption
 import com.snowplowanalytics.snowplow.tracker.emitter.HttpMethod
@@ -26,7 +27,9 @@ class TrackerUtil {
         fun getTracker(emitter: Emitter, json: Map<String, Any>?, context: Context): Tracker {
             val namespace = json?.get("namespace") as String
             val appId = json["appId"] as String
-            val subject = Subject.SubjectBuilder().build()
+            val subject = Subject.SubjectBuilder().context(context).build()
+
+            subject.setUseragent(WebSettings.getDefaultUserAgent(context));
 
             var builder = Tracker.TrackerBuilder(emitter, namespace, appId, context)
                     .subject(subject)

@@ -13,11 +13,11 @@ class _MyAppState extends State<MyApp> {
 
   @override
   void initState() {
-    final emitter = Emitter(uri: 'your-collector-endpoint-url');
+    final emitter = Emitter(uri: 'snowplow.dcube.cloud');
     final tracker = Tracker(
       emitter: emitter,
-      namespace: 'your-namespace',
-      appId: 'your-appId',
+      namespace: 'FlutterTracker Development',
+      appId: 'sg.wogaa.trackerdemoapp',
       logLevel: LogLevel.verbose,
     );
     _tracker = SnowplowFlutterTracker();
