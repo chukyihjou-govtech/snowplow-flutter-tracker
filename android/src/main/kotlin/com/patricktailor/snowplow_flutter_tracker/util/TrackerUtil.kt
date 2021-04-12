@@ -24,10 +24,10 @@ class TrackerUtil {
                     .security(RequestSecurity.valueOf(json["requestSecurity"] as String))
                     .callback(object: RequestCallback {
                         override fun onSuccess(successCount: Int) {
-                            Log.d("WOGAA Tracker", "Buffer length for POST/GET:$successCount");
+                            Log.d("WOGAATracker", "Buffer length for POST/GET:$successCount");
                         }
                         override fun onFailure(successCount: Int, failureCount: Int) {
-                            Log.d("WOGAA Tracker", "Failures: $failureCount; Successes: $successCount");
+                            Log.d("WOGAATracker", "Failures: $failureCount; Successes: $successCount");
                         }
                     })
                     .build()
