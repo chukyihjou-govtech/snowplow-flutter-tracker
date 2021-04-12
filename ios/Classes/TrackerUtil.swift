@@ -8,6 +8,16 @@
 import Foundation
 import SnowplowTracker
 
+class TrackerCallback: NSObject, SPRequestCallback {
+    func onSuccess(withCount successCount: Int) {
+        NSLog("[WOGAATracker] Sent: \(successCount)")
+    }
+    
+    func onFailure(withCount failureCount: Int, successCount: Int) {
+        NSLog("[WOGAATracker] Fail: \(failureCount), Sent: \(successCount)")
+    }
+}
+
 struct TrackerUtil {
     static func getTracker(emitter: SPEmitter, dictionary: [String: Any]?) -> SPTracker? {
         let subject = SPSubject.init()
@@ -47,6 +57,7 @@ struct TrackerUtil {
             SPEmitterBuilder?.setUrlEndpoint(dictionary?["uri"] as? String)
             SPEmitterBuilder?.setHttpMethod(getHttpMethod(httpMethodAsString: dictionary?["httpMethod"] as? String))
             SPEmitterBuilder?.setProtocol(getProtocol(protocolAsString: dictionary?["requestSecurity"] as? String))
+            SPEmitterBuilder?.setCallback(TrackerCallback())
         }
     }
 
