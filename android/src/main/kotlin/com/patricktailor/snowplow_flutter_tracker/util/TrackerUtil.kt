@@ -1,12 +1,14 @@
 package com.patricktailor.snowplow_flutter_tracker.util
 
 import android.content.Context
+import android.util.Log
 import android.webkit.WebSettings;
 import com.snowplowanalytics.snowplow.tracker.*
 import com.snowplowanalytics.snowplow.tracker.emitter.BufferOption
 import com.snowplowanalytics.snowplow.tracker.emitter.HttpMethod
 import com.snowplowanalytics.snowplow.tracker.emitter.RequestSecurity
 import com.snowplowanalytics.snowplow.tracker.utils.LogLevel
+import com.snowplowanalytics.snowplow.tracker.emitter.RequestCallback
 
 class TrackerUtil {
     sealed class GdprContextError(message: String?) : Throwable(message) {
@@ -20,7 +22,14 @@ class TrackerUtil {
                     .method(HttpMethod.valueOf(json["httpMethod"] as String))
                     .option(BufferOption.valueOf(json["bufferOption"] as String))
                     .security(RequestSecurity.valueOf(json["requestSecurity"] as String))
-                    .callback(EmitterRequestCallback(LogLevel.valueOf(logLevel)))
+                    .callback(object: RequestCallback {
+                        override fun onSuccess(successCount: Int) {
+                            Log.d("WOGAA Tracker", "Buffer length for POST/GET:$successCount");
+                        }
+                        override fun onFailure(successCount: Int, failureCount: Int) {
+                            Log.d("WOGAA Tracker", "Failures: $failureCount; Successes: $successCount");
+                        }
+                    })
                     .build()
         }
 
